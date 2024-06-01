@@ -1,0 +1,320 @@
+---
+title: "Untitled"
+format: html
+---
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(patchwork)
+
+```
+
+# for class
+```{r}
+# Read gay char analysis data
+gay_analysis <- read.csv("gay_char_analysis.csv")
+
+gay_1990s <- gay_analysis %>% filter (Year >= 1990,
+    Year < 2000)
+
+gay_2010s <- gay_analysis %>% filter (Year >= 2010,
+    Year < 2020)
+```
+
+```{r}
+summary(gay_1990s)
+```
+
+```{r}
+unique(gay_1990s$Race)
+```
+
+* 1990s
+Race
+```{r}
+ggplot(gay_1990s) +
+    geom_dotplot(stackgroups = TRUE, binwidth = 1, binpositions = "all", method = "dotdensity", dotsize = 0.4) +
+    aes(x = Year, fill = factor(Race), stroke = 0.01) +
+    # + geom_line(data = gay_year, color = "#4600ff")
+    # + aes(x="Year", y="Character(s)")
+    theme_void() +
+    labs(title = "Race of Gay Characters in 1990s Films", cex.axis = 10) +
+    scale_fill_manual(values = c("#F4A261", "#264653", "#2A9D8F", "#E9C46A", "#B5838D")) +
+    scale_y_continuous(NULL, breaks = NULL) +
+    scale_x_continuous(label = scales::label_number(accuracy = 1)) +
+    theme(plot.title = element_text(hjust = 0.5))
+```
+
+Age
+```{r}
+ggplot(gay_1990s) +
+    geom_dotplot(stackgroups = TRUE, binwidth = 1, binpositions = "all", method = "dotdensity", dotsize = 0.4) +
+    aes(x = Year, fill = factor(Role), stroke = 0.01) +
+    # + geom_line(data = gay_year, color = "#4600ff")
+    # + aes(x="Year", y="Character(s)")
+    theme_void() +
+    labs(title = "Role of Gay Characters in 1990s Films", cex.axis = 10) +
+    # scale_fill_manual(values=c("#F4A261", "#264653", "#2A9D8F", "#E9C46A", "#B5838D")) +
+    scale_y_continuous(NULL, breaks = NULL) +
+    scale_x_continuous(label = scales::label_number(accuracy = 1)) +
+    theme(plot.title = element_text(hjust = 0.5))
+```
+
+* 2010s
+Race
+```{r}
+ggplot(gay_2010s) +
+    geom_dotplot(stackgroups = TRUE, binwidth = 1, binpositions = "all", dotsize = 0.4) +
+    aes(x = Year, fill = factor(Race), stroke = 0.01) +
+    # + geom_line(data = gay_year, color = "#4600ff")
+    # + aes(x="Year", y="Character(s)")
+    theme_void() +
+    labs(title = "Race of Gay Characters in 2010s Films", cex.axis = 10) +
+    scale_fill_manual(values = c("#F4A261", "#264653", "#2A9D8F", "#E9C46A", "#B5838D")) +
+    scale_y_continuous(NULL, breaks = NULL) +
+    scale_x_continuous(label = scales::label_number(accuracy = 1)) +
+    theme(plot.title = element_text(hjust = 0.5))
+```
+
+Role
+```{r}
+ggplot(gay_2010s) +
+    geom_dotplot(stackgroups = TRUE, binwidth = 1, binpositions = "all", method = "dotdensity", dotsize = 0.4) +
+    aes(x = Year, fill = factor(Role), stroke = 0.01) +
+    # + geom_line(data = gay_year, color = "#4600ff")
+    # + aes(x="Year", y="Character(s)")
+    theme_void() +
+    labs(title = "Role of Gay Characters in 1990s Films", cex.axis = 10) +
+    # scale_fill_manual(values=c("#F4A261", "#264653", "#2A9D8F", "#E9C46A", "#B5838D")) +
+    scale_y_continuous(NULL, breaks = NULL) +
+    scale_x_continuous(label = scales::label_number(accuracy = 1)) +
+    theme(plot.title = element_text(hjust = 0.5))
+```
+
+```{r}
+gay_analysis[gay_analysis$Race == "Unknown", ]
+```
+
+```{r}
+gay_analysis$Race[279] <- "White"
+```
+
+```{r}
+table(gay_1990s$Role)
+
+table(gay_2010s$Role)
+```
+
+
+
+# 06/01/2024
+```{r}
+gay_analysis <- read.csv("https://raw.githubusercontent.com/yanansun0074/QueerFilms/main/gay_char_analysis_all.csv")
+head(gay_analysis)
+```
+```{r}
+gay_1990s <- gay_analysis %>% filter(Year <2000)
+gay_2010s <- gay_analysis %>% filter(Year >=2000)
+```
+
+
+```{r}
+p <- ggplot() +
+    geom_dotplot(data = gay_1990s, stackgroups = TRUE, binwidth = 1, binpositions = "all", method = "dotdensity", dotsize = 0.3) +
+    aes(x = Year, fill = factor(Death), stroke = 0.01) +
+    # + geom_line(data = gay_year, color = "#4600ff")
+    # + aes(x="Year", y="Character(s)")
+    theme_void() +
+    labs(title = "Death of Gay Characters in 1990s Films", cex.axis = 10) +
+    # scale_fill_manual(values=c("#F4A261", "#264653", "#2A9D8F", "#E9C46A", "#B5838D")) +
+    scale_y_continuous(NULL, breaks = NULL) +
+    scale_x_continuous(label = scales::label_number(accuracy = 1)) +
+    theme(plot.title = element_text(hjust = 0.5))
+    
+p2 <- ggplot() +
+    geom_dotplot(data = gay_2010s, stackgroups = TRUE, binwidth = 1, binpositions = "all", method = "dotdensity", dotsize = 0.3) +
+    aes(x = Year, fill = factor(Death), stroke = 0.01) +
+    # + geom_line(data = gay_year, color = "#4600ff")
+    # + aes(x="Year", y="Character(s)")
+    theme_void() +
+    labs(title = "Death of Gay Characters in 2010s Films", cex.axis = 10) +
+    # scale_fill_manual(values=c("#F4A261", "#264653", "#2A9D8F", "#E9C46A", "#B5838D")) +
+    scale_y_continuous(NULL, breaks = NULL) +
+    scale_x_continuous(label = scales::label_number(accuracy = 1)) +
+    theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+
+```{r}
+p+p2
+```
+
+
+
+```{r}
+touch1 <- ggplot() +
+    geom_dotplot(data = gay_1990s, stackgroups = TRUE, binwidth = 1, binpositions = "all", method = "dotdensity", dotsize = 0.3) +
+    aes(x = Year, fill = factor(Homosexual.physical.touch), stroke = 0.01) +
+    # + geom_line(data = gay_year, color = "#4600ff")
+    # + aes(x="Year", y="Character(s)")
+    theme_void() +
+    labs(title = "Same-sex Touch of Gay Characters in 1990s Films", cex.axis = 10) +
+    # scale_fill_manual(values=c("#F4A261", "#264653", "#2A9D8F", "#E9C46A", "#B5838D")) +
+    scale_y_continuous(NULL, breaks = NULL) +
+    scale_x_continuous(label = scales::label_number(accuracy = 1)) +
+    theme(plot.title = element_text(hjust = 0.5))
+    
+touch2 <- ggplot() +
+    geom_dotplot(data = gay_2010s, stackgroups = TRUE, binwidth = 1, binpositions = "all", method = "dotdensity", dotsize = 0.3) +
+    aes(x = Year, fill = factor(Homosexual.physical.touch), stroke = 0.01) +
+    # + geom_line(data = gay_year, color = "#4600ff")
+    # + aes(x="Year", y="Character(s)")
+    theme_void() +
+    labs(title = "Same-sex Touch of Gay Characters in 2010s Films", cex.axis = 10) +
+    # scale_fill_manual(values=c("#F4A261", "#264653", "#2A9D8F", "#E9C46A", "#B5838D")) +
+    scale_y_continuous(NULL, breaks = NULL) +
+    scale_x_continuous(label = scales::label_number(accuracy = 1)) +
+    theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+
+```{r}
+touch1 + touch2
+```
+
+```{r}
+kiss1 <- ggplot() +
+    geom_dotplot(data = gay_1990s, stackgroups = TRUE, binwidth = 1, binpositions = "all", method = "dotdensity", dotsize = 0.3) +
+    aes(x = Year, fill = factor(Homosexual.kiss), stroke = 0.01) +
+    # + geom_line(data = gay_year, color = "#4600ff")
+    # + aes(x="Year", y="Character(s)")
+    theme_void() +
+    labs(title = "Same-sex Touch of Gay Characters in 1990s Films") +
+    # scale_fill_manual(values=c("#F4A261", "#264653", "#2A9D8F", "#E9C46A", "#B5838D")) +
+    scale_y_continuous(NULL, breaks = NULL) +
+    scale_x_continuous(label = scales::label_number(accuracy = 1)) +
+    theme(plot.title = element_text(hjust = 0.5))
+    
+kiss2 <- ggplot() +
+    geom_dotplot(data = gay_2010s, stackgroups = TRUE, binwidth = 1, binpositions = "all", method = "dotdensity", dotsize = 0.3) +
+    aes(x = Year, fill = factor(Homosexual.kiss), stroke = 0.01) +
+    # + geom_line(data = gay_year, color = "#4600ff")
+    # + aes(x="Year", y="Character(s)")
+    theme_void() +
+    labs(title = "Same-sex Touch of Gay Characters in 2010s Films") +
+    # scale_fill_manual(values=c("#F4A261", "#264653", "#2A9D8F", "#E9C46A", "#B5838D")) +
+    scale_y_continuous(NULL, breaks = NULL) +
+    scale_x_continuous(label = scales::label_number(accuracy = 1)) +
+    theme(plot.title = element_text(hjust = 0.5))
+```
+
+
+```{r}
+kiss1 + kiss2
+```
+
+
+```{r}
+sex1 <- ggplot() +
+    geom_dotplot(data = gay_1990s, stackgroups = TRUE, binwidth = 1, binpositions = "all", method = "dotdensity", dotsize = 0.3) +
+    aes(x = Year, fill = factor(Homosexual.sex), stroke = 0.01) +
+    # + geom_line(data = gay_year, color = "#4600ff")
+    # + aes(x="Year", y="Character(s)")
+    theme_void() +
+    labs(title = "Sex of Gay Characters in 1990s Films") +
+    # scale_fill_manual(values=c("#F4A261", "#264653", "#2A9D8F", "#E9C46A", "#B5838D")) +
+    scale_y_continuous(NULL, breaks = NULL) +
+    scale_x_continuous(label = scales::label_number(accuracy = 1)) +
+    theme(plot.title = element_text(hjust = 0.5))
+    
+sex2 <- ggplot() +
+    geom_dotplot(data = gay_2010s, stackgroups = TRUE, binwidth = 1, binpositions = "all", method = "dotdensity", dotsize = 0.3) +
+    aes(x = Year, fill = factor(Homosexual.sex), stroke = 0.01) +
+    # + geom_line(data = gay_year, color = "#4600ff")
+    # + aes(x="Year", y="Character(s)")
+    theme_void() +
+    labs(title = "Sex of Gay Characters in 2010s Films") +
+    # scale_fill_manual(values=c("#F4A261", "#264653", "#2A9D8F", "#E9C46A", "#B5838D")) +
+    scale_y_continuous(NULL, breaks = NULL) +
+    scale_x_continuous(label = scales::label_number(accuracy = 1)) +
+    theme(plot.title = element_text(hjust = 0.5))
+```
+
+
+```{r}
+sex1 + sex2
+```
+
+```{r}
+word1 <- ggplot() +
+    geom_dotplot(data = gay_1990s, stackgroups = TRUE, binwidth = 1, binpositions = "all", method = "dotdensity", dotsize = 0.3) +
+    aes(x = Year, fill = factor(Words), stroke = 0.01) +
+    # + geom_line(data = gay_year, color = "#4600ff")
+    # + aes(x="Year", y="Character(s)")
+    theme_void() +
+    labs(title = "Sex of Gay Characters in 1990s Films") +
+    # scale_fill_manual(values=c("#F4A261", "#264653", "#2A9D8F", "#E9C46A", "#B5838D")) +
+    scale_y_continuous(NULL, breaks = NULL) +
+    scale_x_continuous(label = scales::label_number(accuracy = 1)) +
+    theme(plot.title = element_text(hjust = 0.5))
+    
+word2 <- ggplot() +
+    geom_dotplot(data = gay_2010s, stackgroups = TRUE, binwidth = 1, binpositions = "all", method = "dotdensity", dotsize = 0.3) +
+    aes(x = Year, fill = factor(Words), stroke = 0.01) +
+    # + geom_line(data = gay_year, color = "#4600ff")
+    # + aes(x="Year", y="Character(s)")
+    theme_void() +
+    labs(title = "Sex of Gay Characters in 2010s Films") +
+    # scale_fill_manual(values=c("#F4A261", "#264653", "#2A9D8F", "#E9C46A", "#B5838D")) +
+    scale_y_continuous(NULL, breaks = NULL) +
+    scale_x_continuous(label = scales::label_number(accuracy = 1)) +
+    theme(plot.title = element_text(hjust = 0.5))
+```
+
+
+```{r}
+word1 + word2
+```
+
+```{r}
+partner1 <- ggplot() +
+    geom_dotplot(data = gay_1990s, stackgroups = TRUE, binwidth = 1, binpositions = "all", method = "dotdensity", dotsize = 0.3) +
+    aes(x = Year, fill = factor(Same.sex.partner), stroke = 0.01) +
+    # + geom_line(data = gay_year, color = "#4600ff")
+    # + aes(x="Year", y="Character(s)")
+    theme_void() +
+    labs(title = "Sex of Gay Characters in 1990s Films") +
+    # scale_fill_manual(values=c("#F4A261", "#264653", "#2A9D8F", "#E9C46A", "#B5838D")) +
+    scale_y_continuous(NULL, breaks = NULL) +
+    scale_x_continuous(label = scales::label_number(accuracy = 1)) +
+    theme(plot.title = element_text(hjust = 0.5))
+    
+partner2 <- ggplot() +
+    geom_dotplot(data = gay_2010s, stackgroups = TRUE, binwidth = 1, binpositions = "all", method = "dotdensity", dotsize = 0.3) +
+    aes(x = Year, fill = factor(Same.sex.partner), stroke = 0.01) +
+    # + geom_line(data = gay_year, color = "#4600ff")
+    # + aes(x="Year", y="Character(s)")
+    theme_void() +
+    labs(title = "Sex of Gay Characters in 2010s Films") +
+    # scale_fill_manual(values=c("#F4A261", "#264653", "#2A9D8F", "#E9C46A", "#B5838D")) +
+    scale_y_continuous(NULL, breaks = NULL) +
+    scale_x_continuous(label = scales::label_number(accuracy = 1)) +
+    theme(plot.title = element_text(hjust = 0.5))
+```
+
+
+```{r}
+partner1 + partner2
+```
+
+
+
+
+
+
+
+
+
